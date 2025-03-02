@@ -10,12 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.viewmodelwithtextfeild.ui.theme.ViewModelWithTextFeildTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,8 +29,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SimpleTextField() {
-    var text by remember { mutableStateOf("") }
+fun SimpleTextField(viewModel: InputViewModel = viewModel()) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -41,10 +37,10 @@ fun SimpleTextField() {
         verticalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = viewModel.input.value,
+            onValueChange = { viewModel.onInputChange(it) },
             label = { Text("Enter text") }
         )
-        Text(text = "You typed: $text")
+        Text(text = "You typed: ${viewModel.input.value}")
     }
 }
